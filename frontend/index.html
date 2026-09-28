@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaccaPro AI Sales Analysis System (PASAS)</title>
+    
+    <!-- Offline CSS Assets -->
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="css/style.css?v=2.0">
+</head>
+<body>
+
+    <!-- ==========================================
+         LOGIN SCREEN CONTAINER
+         ========================================== -->
+    <div id="login-screen" class="d-flex align-items-center justify-content-center">
+        <div class="login-card p-4 text-center">
+            <div class="brand-logo mb-3">
+                <img src="logo.png" alt="Company Logo" width="64" height="64" style="object-fit: contain;">
+            </div>
+            
+            <h4 class="fw-bold text-white mb-1" data-i18n="login_title">Sign In to PaccaPro AI</h4>
+            <p class="text-muted small mb-4" data-i18n="login_subtitle">Sales Analysis System (PASAS)</p>
+            
+            <!-- Error Alert -->
+            <div class="alert alert-danger d-none py-2 small" id="login-error-msg" data-i18n="login_failed">Failed to connect to the backend server.</div>
+            
+            <form id="login-form">
+                <div class="mb-3 text-start">
+                    <label class="form-label text-muted small" data-i18n="login_username">Username</label>
+                    <input type="text" class="form-control login-input" id="username" data-i18n-placeholder="login_username_placeholder" placeholder="Enter username" required>
+                </div>
+                <div class="mb-4 text-start">
+                    <label class="form-label text-muted small" data-i18n="login_password">Password</label>
+                    <input type="password" class="form-control login-input" id="password" data-i18n-placeholder="login_password_placeholder" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2 btn-login fw-semibold" data-i18n="login_btn">Sign In</button>
+            </form>
+            
+            <div class="text-center text-muted tiny mt-4" data-i18n="login_secure">Offline Secure Corporate System</div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         MAIN APPLICATION SPA INTERFACE
+         ========================================== -->
+    <div id="main-interface" class="d-none">
+        
+        <!-- Left Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header d-flex align-items-center gap-2">
+                <div class="brand-icon">
+                    <img src="logo.png?v=2.0" alt="Company Logo" width="32" height="32" style="object-fit: contain; background: transparent !important;">
+                </div>
+                <div>
+                    <h5 class="m-0 text-white fw-bold" data-i18n="brand_title">PaccaPro AI</h5>
+                    <span class="text-primary tiny fw-semibold tracking-wide uppercase" data-i18n="brand_subtitle">Enterprise</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu mt-4 flex-grow-1">
+                <a href="#" class="menu-item active" data-target="view-dashboard">
+                    <span class="menu-icon">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z"/></svg>
+                    </span>
+                    <span data-i18n="menu_dashboard">Dashboard</span>
+                </a>
+                <a href="#" class="menu-item" data-target="view-analysis">
+                    <span class="menu-icon">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    </span>
+                    <span data-i18n="menu_analysis">AI Analysis</span>
+                </a>
+                <a href="#" class="menu-item" data-target="view-poster-analysis">
+                    <span class="menu-icon">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    </span>
+                    <span data-i18n="menu_poster_analysis">Poster Analysis</span>
+                </a>
+                <a href="#" class="menu-item" data-target="view-sync">
+                    <span class="menu-icon">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17"/></svg>
+                    </span>
+                    <span>Upload</span>
+                </a>
+                <a href="#" class="menu-item" data-target="view-assistant">
+                    <span class="menu-icon">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                    </span>
+                    <span data-i18n="menu_assistant">AI Assistant</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-profile d-flex align-items-center gap-2 mb-3">
+                    <div class="avatar">K</div>
+                    <div>
+                        <div class="text-white small fw-semibold" id="logged-user-display">kumar</div>
+                        <div class="text-muted tiny" data-i18n="user_role">Administrator</div>
+                    </div>
+                </div>
+                <button class="btn btn-outline-danger btn-sm w-100 logout-btn fw-medium d-flex align-items-center justify-content-center gap-2">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                    <span data-i18n="menu_logout">Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-wrapper">
+            
+            <!-- Global Top Header -->
+            <header class="top-header d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="m-0 text-white fw-bold" id="current-page-title" data-i18n="dash_title">Dashboard</h3>
+                    <p class="text-muted small m-0" id="current-page-subtitle" data-i18n="dash_subtitle">Real-time statistics & pipeline analytics</p>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    
+                    <!-- Language Switcher Buttons (Bilingual Support) -->
+                    <div class="btn-group border border-secondary-subtle rounded bg-white p-1" role="group">
+                        <button type="button" class="btn btn-sm btn-link py-1 px-2 text-decoration-none fw-semibold text-primary" id="lang-btn-en" style="font-size: 0.8rem;">English</button>
+                        <button type="button" class="btn btn-sm btn-link py-1 px-2 text-decoration-none fw-semibold text-muted" id="lang-btn-ta" style="font-size: 0.8rem;">தமிழ்</button>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2" id="btn-toggle-theme" title="Toggle Light/Dark Theme">
+                        <span id="theme-toggle-icon" class="d-flex align-items-center">
+                            <!-- Moon Icon -->
+                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" id="icon-moon"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                            <!-- Sun Icon -->
+                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" id="icon-sun" class="d-none"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.364l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+                        </span>
+                        <span id="theme-toggle-text" class="small fw-semibold" data-i18n="theme_night">Night Mode</span>
+                    </button>
+                    <div class="status-indicator d-flex align-items-center gap-2">
+                        <span class="pulse-dot"></span>
+                        <span class="text-success small fw-medium" data-i18n="status_ready">Offline Core Ready</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ==========================================
+                 VIEW 1: DASHBOARD
+                 ========================================== -->
+            <section id="view-dashboard" class="content-section">
+                
+                <!-- Statistics Summary Row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <span class="stat-title uppercase tracking-wide d-block" data-i18n="card_total_reports">TOTAL REPORTS</span>
+                            <span class="stat-value text-white d-block my-1" id="card-total-reports">0</span>
+                            <span class="stat-delta text-success" data-i18n="card_total_reports_sub">Cumulative files</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <span class="stat-title uppercase tracking-wide d-block" data-i18n="card_today_reports">TODAY'S REPORTS</span>
+                            <span class="stat-value text-white d-block my-1" id="card-today-reports">0</span>
+                            <span class="stat-delta text-primary" data-i18n="card_today_reports_sub">Uploaded today</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <span class="stat-title uppercase tracking-wide d-block" data-i18n="card_weekly_reports">WEEKLY REPORTS</span>
+                            <span class="stat-value text-white d-block my-1" id="card-weekly-reports">0</span>
+                            <span class="stat-delta text-info" data-i18n="card_weekly_reports_sub">Last 7 days</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <span class="stat-title uppercase tracking-wide d-block" data-i18n="card_monthly_reports">MONTHLY REPORTS</span>
+                            <span class="stat-value text-white d-block my-1" id="card-monthly-reports">0</span>
+                            <span class="stat-delta text-warning" data-i18n="card_monthly_reports_sub">Current month</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <span class="stat-title uppercase tracking-wide d-block" data-i18n="card_yearly_reports">YEARLY REPORTS</span>
+                            <span class="stat-value text-white d-block my-1" id="card-yearly-reports">0</span>
+                            <span class="stat-delta text-success" data-i18n="card_yearly_reports_sub">Current year</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Primary Data Row: 2 Distinct Graphs (Performance Ranking Bar Chart & Emotion Tracking Bar Chart) -->
+                <div class="row g-4 mb-4">
+                    <!-- Graph 1: Sales Representative Performance Ranking Bar Chart -->
+                    <div class="col-12 col-lg-6">
+                        <div class="dashboard-panel h-100">
+                            <div class="panel-header mb-3">
+                                <h5 class="text-white fw-bold m-0"><i class="bi bi-bar-chart-line text-warning me-2"></i>Sales Representative Performance Ranking</h5>
+                                <span class="text-muted tiny">Total performance score (stars) comparison across representatives</span>
+                            </div>
+                            <div class="chart-container" style="height: 260px; position: relative;">
+                                <canvas id="chart-rep-performance-ranking"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Graph 2: Sales Representative Emotion Tracking Bar Chart -->
+                    <div class="col-12 col-lg-6">
+                        <div class="dashboard-panel h-100">
+                            <div class="panel-header mb-3">
+                                <h5 class="text-white fw-bold m-0"><i class="bi bi-emoji-smile text-success me-2"></i>Sales Representative Emotion Tracking</h5>
+                                <span class="text-muted tiny">Sentiment distribution (Positive 🟢, Neutral 🟡, Negative 🔴) across representatives</span>
+                            </div>
+                            <div class="chart-container" style="height: 260px; position: relative;">
+                                <canvas id="chart-rep-emotion-tracking"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEARCH FILTERS CARD -->
+                <div class="row g-4 mb-4">
+                    <div class="col-12">
+                        <div class="dashboard-panel">
+                            <div class="panel-header mb-3">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="text-white fw-bold m-0">Search Filters</h5>
+                                        <span class="text-muted tiny">Filter processed conversations by parameters</span>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary text-white" id="btn-clear-search-filters">
+                                        <i class="bi bi-x-circle me-1"></i> Clear Filters
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3 align-items-end">
+                                <!-- Start Date -->
+                                <div class="col-12 col-sm-6 col-md-2">
+                                    <label for="search-start-date" class="form-label text-muted tiny fw-bold mb-1">Start Date</label>
+                                    <input type="date" id="search-start-date" class="form-control form-control-sm table-filter-input text-white w-100" placeholder="mm/dd/yyyy">
+                                </div>
+                                <!-- End Date -->
+                                <div class="col-12 col-sm-6 col-md-2">
+                                    <label for="search-end-date" class="form-label text-muted tiny fw-bold mb-1">End Date</label>
+                                    <input type="date" id="search-end-date" class="form-control form-control-sm table-filter-input text-white w-100" placeholder="mm/dd/yyyy">
+                                </div>
+                                <!-- Sales Representative -->
+                                <div class="col-12 col-sm-6 col-md-3">
+                                    <label for="search-sales-rep" class="form-label text-muted tiny fw-bold mb-1">Sales Representative</label>
+                                    <select id="search-sales-rep" class="form-select form-select-sm table-filter-input text-white w-100">
+                                        <option value="all" selected>All Representatives</option>
+                                        <option value="Balamurugan">Balamurugan</option>
+                                        <option value="Rajeshwaran">Rajeshwaran</option>
+                                        <option value="Sriram">Sriram</option>
+                                        <option value="Vinothkumar">Vinothkumar</option>
+                                        <option value="Parthiban">Parthiban</option>
+                                        <option value="Periyar Selvam">Periyar Selvam</option>
+                                        <option value="Sankarapandian">Sankarapandian</option>
+                                    </select>
+                                </div>
+                                <!-- Dealer Name -->
+                                <div class="col-12 col-sm-6 col-md-3">
+                                    <label for="search-dealer-name" class="form-label text-muted tiny fw-bold mb-1">Dealer Name</label>
+                                    <select id="search-dealer-name" class="form-select form-select-sm table-filter-input text-white w-100">
+                                        <option value="all" selected>All Dealers</option>
+                                    </select>
+                                </div>
+                                <!-- Show Performance Button -->
+                                <div class="col-12 col-sm-12 col-md-2">
+                                    <button type="button" class="btn btn-sm btn-primary fw-bold text-white w-100 py-2 shadow-sm" id="btn-show-performance">
+                                        <i class="bi bi-bar-chart-line me-1"></i> Show Performance
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INITIAL PLACEHOLDER PROMPT -->
+                <div id="show-perf-prompt-banner" class="alert bg-white border border-secondary text-dark mb-4 d-flex align-items-center gap-2 shadow-sm">
+                    <i class="bi bi-info-circle-fill fs-5 text-primary"></i>
+                    <span class="text-dark fw-medium">Select filters and click <strong class="text-primary">Show Performance</strong> to view performance analysis.</span>
+                </div>
+
+                <!-- DYNAMIC FILTERED PERFORMANCE SECTION (Controlled by SHOW PERFORMANCE button) -->
+                <div id="filtered-performance-container" class="mb-4 d-none">
+                    <!-- 1. Performance Header -->
+                    <div class="dashboard-panel mb-4 p-3">
+                        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+                            <div>
+                                <h5 class="fw-bold mb-1 text-white"><i class="bi bi-person-badge text-primary me-2"></i>Sales Representative Performance</h5>
+                                <div class="d-flex flex-wrap gap-4 mt-2">
+                                    <div><span class="text-muted tiny">Sales Representative:</span> <strong id="header-perf-rep" class="text-white ms-1">--</strong></div>
+                                    <div><span class="text-muted tiny">Dealer:</span> <strong id="header-perf-dealer" class="text-white ms-1">--</strong></div>
+                                    <div><span class="text-muted tiny">Date Range:</span> <strong id="header-perf-dates" class="text-white ms-1">--</strong></div>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-primary-subtle text-primary border border-primary px-3 py-2 fs-6 fw-bold" id="header-perf-count">0 Conversations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Overall Performance & Emotion Card -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6">
+                            <div class="dashboard-panel text-center py-4 h-100">
+                                <h6 class="text-muted tiny text-uppercase fw-bold mb-2">Overall Performance Score</h6>
+                                <div class="fs-1 fw-bold text-warning mb-1" id="overall-score-stars">★★★★☆</div>
+                                <div class="fs-4 text-white fw-bold"><span id="overall-score-num">0.0</span> / 5.0</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dashboard-panel text-center py-4 h-100">
+                                <h6 class="text-muted tiny text-uppercase fw-bold mb-2">Overall Emotion / Sentiment</h6>
+                                <div class="mt-3" id="overall-emotion-badge">
+                                    <span class="badge bg-success fs-6 px-4 py-2">🟢 Positive</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. 10 Performance Topics (Rating + Emotion + Discussion Points Table) -->
+                    <div class="dashboard-panel mb-4">
+                        <div class="panel-header mb-3">
+                            <h5 class="text-white fw-bold m-0">Performance Topics & Emotion Tracking</h5>
+                            <span class="text-muted tiny">Comprehensive 10-topic rating and sentiment breakdown calculated from filtered conversations</span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table custom-table text-white mb-0" id="filtered-topics-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%;">Topic</th>
+                                        <th style="width: 20%;">Rating</th>
+                                        <th style="width: 20%;">Emotion / Sentiment</th>
+                                        <th style="width: 40%;">Key Discussion Points / Feedback</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="filtered-topics-body">
+                                    <!-- Rendered dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 4. Filtered Conversations Analysis Table -->
+                    <div class="dashboard-panel mb-4">
+                        <div class="panel-header mb-3">
+                            <h5 class="text-white fw-bold m-0">Filtered Conversation Analysis</h5>
+                            <span class="text-muted tiny">Processed customer recordings and AI transcription reports for the selected filters</span>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table custom-table text-white mb-0" id="filtered-conversations-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Sales Representative</th>
+                                        <th>Dealer Name</th>
+                                        <th>Sentiment</th>
+                                        <th>AI Summary</th>
+                                        <th>Key Topics</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="filtered-conversations-body">
+                                    <!-- Rendered dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW CARD: Sales Rep Performance Overall Ranking Section -->
+                <div class="row g-4 mb-4">
+                    <div class="col-12">
+                        <div class="dashboard-panel">
+                            <div class="panel-header mb-3">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="text-white fw-bold m-0">Sales Rep Emotion Tracking</h5>
+                                        <span class="text-muted tiny">Overall emotional/sentiment performance based on customer discussions</span>
+                                    </div>
+                                    <!-- Direct Calendar Start Date & End Date Inputs -->
+                                    <div class="d-flex align-items-end gap-2 mt-2 mt-md-0">
+                                        <div>
+                                            <label for="ranking-from-date" class="form-label text-muted tiny fw-bold mb-1 d-block">Start Date</label>
+                                            <input type="date" id="ranking-from-date" class="form-control form-control-sm table-filter-input text-white" style="width: 150px;">
+                                        </div>
+                                        <div>
+                                            <label for="ranking-to-date" class="form-label text-muted tiny fw-bold mb-1 d-block">End Date</label>
+                                            <input type="date" id="ranking-to-date" class="form-control form-control-sm table-filter-input text-white" style="width: 150px;">
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary text-white" id="btn-clear-ranking-dates">Clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Detailed Sentiment Performance Table -->
+                            <div class="table-responsive">
+                                <table class="table custom-table text-white mb-0" id="rep-sentiment-ranking-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Sales Representative</th>
+                                            <th>Sales</th>
+                                            <th>Collection</th>
+                                            <th>Competition</th>
+                                            <th>Product</th>
+                                            <th>Price List</th>
+                                            <th>Our Services</th>
+                                            <th>Our New Products</th>
+                                            <th>Most Sell Products</th>
+                                            <th>Pending Stock</th>
+                                            <th>Follow-up Date</th>
+                                            <th>Performance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rep-sentiment-ranking-body">
+                                        <!-- Loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EXISTING CARD: Sales Representative Performance Ranking Section -->
+                <div class="row g-4 mb-4">
+                    <div class="col-12">
+                        <div class="dashboard-panel">
+                            <div class="panel-header mb-3">
+                                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="text-white fw-bold m-0">Sales Representative Performance Ranking</h5>
+                                        <span class="text-muted tiny">Performance based on customer discussion coverage</span>
+                                    </div>
+                                    <!-- Direct Calendar Start Date & End Date Inputs -->
+                                    <div class="d-flex align-items-end gap-2 mt-2 mt-md-0">
+                                        <div>
+                                            <label for="ranking-from-date-2" class="form-label text-muted tiny fw-bold mb-1 d-block">Start Date</label>
+                                            <input type="date" id="ranking-from-date-2" class="form-control form-control-sm table-filter-input text-white ranking-date-picker" style="width: 150px;">
+                                        </div>
+                                        <div>
+                                            <label for="ranking-to-date-2" class="form-label text-muted tiny fw-bold mb-1 d-block">End Date</label>
+                                            <input type="date" id="ranking-to-date-2" class="form-control form-control-sm table-filter-input text-white ranking-date-picker" style="width: 150px;">
+                                        </div>
+                                        <div>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary text-white btn-clear-ranking-dates-action">Clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Detailed Performance Table -->
+                            <div class="table-responsive">
+                                <table class="table custom-table text-white mb-0" id="rep-ranking-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Sales Representative</th>
+                                            <th>Sales</th>
+                                            <th>Collection</th>
+                                            <th>Competition</th>
+                                            <th>Product</th>
+                                            <th>Price List</th>
+                                            <th>Our Services</th>
+                                            <th>Our New Products</th>
+                                            <th>Most Sell Products</th>
+                                            <th>Pending Stock</th>
+                                            <th>Follow-up Date</th>
+                                            <th>Total Stars</th>
+                                            <th>Performance</th>
+                                            <th>Sentiments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rep-ranking-body">
+                                        <!-- Loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- ==========================================
+                     LIVE SALES REPRESENTATIVE INSIGHTS
+                     ========================================== -->
+                <div class="row g-4 mb-4">
+                    <div class="col-12">
+                        <div class="dashboard-panel">
+                            <div class="panel-header d-flex flex-wrap justify-content-between align-items-center mb-3">
+                                <div>
+                                    <h5 class="text-white fw-bold m-0">LIVE SALES REPRESENTATIVE INSIGHTS</h5>
+                                    <span class="text-muted tiny">Today's most important points and sales representative discussions</span>
+                                </div>
+                                <div class="mt-2 mt-md-0 d-flex align-items-center">
+                                    <span class="badge bg-success me-2"><i class="bi bi-record-circle-fill me-1"></i> LIVE</span>
+                                    <span class="text-muted tiny" id="live-insights-timestamp">Last updated: --:--</span>
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3" id="live-insights-cards">
+                                <!-- Dynamically loaded cards go here -->
+                                <div class="col-12 text-center text-muted my-3">
+                                    <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                    Loading live insights...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 VIEW 2: AI ANALYSIS
+                 ========================================== -->
+            <section id="view-analysis" class="content-section d-none">
+                
+                <!-- Advanced Filters -->
+                <div class="dashboard-panel mb-4">
+                    <div class="panel-header mb-3">
+                        <h5 class="text-white fw-bold m-0" data-i18n="panel_filters">Search Filters</h5>
+                        <span class="text-muted tiny" data-i18n="panel_filters_sub">Filter processed conversations by parameters</span>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label text-muted small" data-i18n="filter_start_date">Start Date</label>
+                            <input type="date" class="form-control table-filter-input" id="filter-start-date">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label text-muted small" data-i18n="filter_end_date">End Date</label>
+                            <input type="date" class="form-control table-filter-input" id="filter-end-date">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label text-muted small" data-i18n="filter_rep">Sales Representative</label>
+                            <select class="form-select table-filter-input" id="filter-rep">
+                                <!-- Loaded dynamically -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label text-muted small" data-i18n="filter_sentiment">Sentiment</label>
+                            <select class="form-select table-filter-input" id="filter-sentiment">
+                                <option value="" data-i18n="filter_all">All Sentiments</option>
+                                <option value="Positive">Positive</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Not Good">Not Good</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end mt-3 gap-2">
+                        <button class="btn btn-primary btn-sm px-3 fw-bold" id="btn-open-create-report" data-i18n="btn_submit_report">Submit Daily Report</button>
+                        <button class="btn btn-outline-secondary btn-sm" id="btn-reset-filters" data-i18n="btn_reset">Reset Filters</button>
+                        <a href="/reports/export/pdf" class="btn btn-danger btn-sm px-3" id="btn-export-pdf" data-i18n="btn_pdf">Download PDF</a>
+                        <a href="/reports/export/excel" class="btn btn-success btn-sm px-3" id="btn-export-excel" data-i18n="btn_excel">Download Excel</a>
+                        <a href="/reports/export/csv" class="btn btn-primary btn-sm px-3" id="btn-export-csv" data-i18n="btn_csv">Download CSV</a>
+                    </div>
+                </div>
+
+                <!-- DataTable Card -->
+                <div class="dashboard-panel">
+                    <div class="panel-header mb-3">
+                        <h5 class="text-white fw-bold m-0" data-i18n="panel_reports">Processed AI Reports</h5>
+                        <span class="text-muted tiny" data-i18n="panel_reports_sub">Click any row to open the complete conversation logs</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="analysis-datatable" class="table text-white w-100">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="th_rep">Rep</th>
+                                    <th data-i18n="th_date">Date</th>
+                                    <th data-i18n="th_client">Client Name</th>
+                                    <th data-i18n="th_summary">Summary</th>
+                                    <th data-i18n="col_sales">Sales</th>
+                                    <th data-i18n="col_collection">Collection</th>
+                                    <th data-i18n="col_competition">Competition</th>
+                                    <th data-i18n="col_product">Product</th>
+                                    <th data-i18n="col_price_list">Price List</th>
+                                    <th data-i18n="col_services">Our Services</th>
+                                    <th data-i18n="col_new_products">Our New Products</th>
+                                    <th data-i18n="col_most_sell">Most Sell Products</th>
+                                    <th data-i18n="col_pending_stock">Pending Stock</th>
+                                    <th data-i18n="th_followup">Follow-up Date</th>
+                                    <th data-i18n="th_duration">Duration</th>
+                                    <th data-i18n="th_sentiment">Sentiment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Loaded via DataTables and REST API -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 VIEW 3: VOICE UPLOAD
+                 ========================================== -->
+            <!-- ==========================================
+                 VIEW 3: SYNC & ANALYZE
+                 ========================================== -->
+            <section id="view-sync" class="content-section d-none">
+                <!-- Status Row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <span class="stat-label" data-i18n="sync_stat_last">Last Sync Time</span>
+                            <h4 class="stat-value text-white m-0 mt-1" id="sync-val-last-time">Never</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <span class="stat-label" data-i18n="sync_stat_pending">Pending Recordings</span>
+                            <h4 class="stat-value text-white m-0 mt-1" id="sync-val-pending">0</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <span class="stat-label" data-i18n="sync_stat_downloaded">Total Downloaded</span>
+                            <h4 class="stat-value text-white m-0 mt-1" id="sync-val-downloaded">0</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <span class="stat-label" data-i18n="sync_stat_analyzed">Total Analyzed</span>
+                            <h4 class="stat-value text-white m-0 mt-1" id="sync-val-analyzed">0</h4>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Manual Voice Upload & Local AI Analysis Row -->
+                <div class="row g-4 mt-1 mb-4">
+                    <!-- Card 1: Manual Voice Upload -->
+                    <div class="col-lg-6">
+                        <div class="dashboard-panel h-100 d-flex flex-column">
+                            <div class="panel-header mb-3">
+                                <h5 class="text-white fw-bold m-0">Manual Voice & Text File Upload</h5>
+                                <span class="text-muted tiny">Upload a voice recording or Tamil summary text file directly (.txt, .json, .mp3, .wav).</span>
+                            </div>
+
+                            <!-- Dropzone & File Input -->
+                            <div class="bg-dark-tint-2 border border-secondary rounded p-4 text-center mb-3 flex-grow-1 d-flex flex-column justify-content-center align-items-center" id="manual-upload-dropzone" style="border-style: dashed !important; cursor: pointer;">
+                                <i class="bi bi-file-earmark-text text-primary fs-1 mb-2"></i>
+                                <h6 class="text-white fw-bold mb-1">Select Text File / Voice Recording or Drag & Drop</h6>
+                                <span class="text-muted tiny mb-2">Supports TXT, JSON, CSV, WAV, MP3, M4A, AAC, OGG, WEBM</span>
+                                <input type="file" id="manual-voice-file-input" class="d-none" accept=".txt,.json,.csv,.doc,.docx,.wav,.mp3,.m4a,.aac,.ogg,.webm">
+                                <button type="button" class="btn btn-sm btn-outline-primary mt-1" onclick="$('#manual-voice-file-input').click()">Browse Files</button>
+                            </div>
+
+                            <!-- Selected File Details Box -->
+                            <div id="manual-file-details" class="bg-dark border border-secondary rounded p-3 mb-3 d-none">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center overflow-hidden">
+                                        <i class="bi bi-file-earmark-music text-warning fs-4 me-2"></i>
+                                        <div class="text-truncate">
+                                            <h6 class="text-white mb-0 text-truncate" id="manual-file-name">filename.mp3</h6>
+                                            <span class="text-muted tiny" id="manual-file-meta">0.0 MB | MP3</span>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" id="btn-manual-remove-file" title="Remove File">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Progress Bar -->
+                                <div class="progress bg-secondary mb-1 d-none" id="manual-upload-progress-container" style="height: 8px;">
+                                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" id="manual-upload-progress-bar" role="progressbar" style="width: 0%;"></div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center text-muted tiny">
+                                    <span id="manual-upload-status-text">Ready to upload</span>
+                                    <span id="manual-upload-percent-text">0%</span>
+                                </div>
+                            </div>
+
+                            <!-- Metadata Input Form -->
+                            <div class="row g-2 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small mb-1">Sales Representative</label>
+                                    <select class="form-select form-select-sm table-filter-input text-dark bg-white fw-bold" id="manual-rep-select" style="color: #000000 !important; background-color: #ffffff !important;">
+                                        <option value="Sankarapandian" class="text-dark bg-white">Sankarapandian</option>
+                                        <option value="Periyar Selvam" class="text-dark bg-white">Periyar Selvam</option>
+                                        <option value="Bala Murugan" class="text-dark bg-white">Bala Murugan</option>
+                                        <option value="Rajeshwaran" class="text-dark bg-white">Rajeshwaran</option>
+                                        <option value="Vinoth Kumar" class="text-dark bg-white">Vinoth Kumar</option>
+                                        <option value="Parthiban" class="text-dark bg-white">Parthiban</option>
+                                        <option value="Sri Ram" class="text-dark bg-white">Sri Ram</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small mb-1">Client Name</label>
+                                    <select class="form-select form-select-sm table-filter-input text-dark bg-white fw-bold" id="manual-client-select" style="color: #000000 !important; background-color: #ffffff !important;">
+                                        <option value="Classic Agencies" class="text-dark bg-white" style="color: #000000 !important; background-color: #ffffff !important;">Classic Agencies</option>
+                                        <option value="MSK Hardware" class="text-dark bg-white" style="color: #000000 !important; background-color: #ffffff !important;">MSK Hardware</option>
+                                        <option value="Modern Paint House" class="text-dark bg-white" style="color: #000000 !important; background-color: #ffffff !important;">Modern Paint House</option>
+                                        <option value="Pioneer Adhesives" class="text-dark bg-white" style="color: #000000 !important; background-color: #ffffff !important;">Pioneer Adhesives</option>
+                                        <option value="Rajesh Enterprises" class="text-dark bg-white" style="color: #000000 !important; background-color: #ffffff !important;">Rajesh Enterprises</option>
+                                        <option value="Sri Lakshmi Agencies" class="text-dark bg-white" style="color: #000000 !important; background-color: #ffffff !important;">Sri Lakshmi Agencies</option>
+                                        <option value="Girish Paints & Hardware" class="text-dark bg-white" style="color: #000000 !important; background-color: #ffffff !important;">Girish Paints & Hardware</option>
+                                        <option value="Sri Murugan Paints" class="text-dark bg-white" style="color: #000000 !important; background-color: #ffffff !important;">Sri Murugan Paints</option>
+                                        <option value="Vinayaga Enterprises" class="text-dark bg-white" style="color: #000000 !important; background-color: #ffffff !important;">Vinayaga Enterprises</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small mb-1">Date</label>
+                                    <input type="date" class="form-control form-control-sm table-filter-input text-white" id="manual-date-input">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label text-muted small mb-1">Time</label>
+                                    <input type="time" class="form-control form-control-sm table-filter-input text-white" id="manual-time-input">
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <button class="btn btn-success w-100 py-2 fw-bold d-flex align-items-center justify-content-center gap-2" id="btn-manual-upload-start" style="border-radius: 8px;">
+                                <i class="bi bi-upload"></i>
+                                <span>Upload Voice Recording</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Local AI Analysis -->
+                    <div class="col-lg-6">
+                        <div class="dashboard-panel h-100 d-flex flex-column">
+                            <div class="panel-header mb-3">
+                                <h5 class="text-white fw-bold m-0">Local AI Analysis</h5>
+                                <span class="text-muted tiny">Analyze locally using the installed Whisper STT and Ollama AI models.</span>
+                            </div>
+
+                            <!-- Processing Status Box -->
+                            <div class="bg-dark-tint-2 border border-dark rounded p-3 mb-3 flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-muted small fw-medium">Upload Status</span>
+                                    <span class="badge bg-secondary" id="manual-badge-upload-status">No File Uploaded</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-muted small fw-medium">Analysis Pipeline</span>
+                                    <span class="badge bg-secondary" id="manual-badge-ai-status">Idle</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-muted small fw-medium">Local Voice File</span>
+                                    <span class="text-white small text-truncate" id="manual-text-active-file" style="max-width: 200px;">None</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-muted small fw-medium">Target Representative</span>
+                                    <span class="text-info small fw-bold" id="manual-text-active-rep">-</span>
+                                </div>
+                            </div>
+
+                            <!-- Step Indicator Log -->
+                            <div class="bg-dark border border-secondary rounded p-3 mb-3" style="min-height: 110px;">
+                                <h6 class="text-muted tiny text-uppercase fw-bold mb-2">Analysis Steps Progress</h6>
+                                <div id="manual-analysis-step-log" class="small text-light">
+                                    <div class="text-muted fst-italic"><i class="bi bi-info-circle me-1"></i> Upload a recording to enable local AI analysis.</div>
+                                </div>
+                            </div>
+
+                            <!-- Action Button -->
+                            <button class="btn btn-primary w-100 py-2 fw-bold d-flex align-items-center justify-content-center gap-2" id="btn-manual-analyze-start" disabled style="border-radius: 8px;">
+                                <i class="bi bi-cpu me-1"></i>
+                                <span>Analyze Recording</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Tamil Voice Summary & Proceed Analysis (தமிழ் குரல் சுருக்கம்) -->
+                <div class="row g-4 mt-1 mb-4">
+                    <div class="col-12">
+                        <div class="dashboard-panel p-4 shadow-sm border border-secondary-subtle bg-white text-dark" style="border-radius: 16px; background: #ffffff !important;">
+                            <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom border-secondary-subtle">
+                                <div class="d-flex align-items-center gap-2">
+                                    <i class="bi bi-translate text-primary fs-3"></i>
+                                    <div>
+                                        <h5 class="text-dark fw-bold m-0">Tamil Voice Summary (தமிழ் குரல் சுருக்கம்)</h5>
+                                        <span class="text-secondary tiny">Paste Tamil voice summary text or upload audio recording to run Local Ollama AI analysis</span>
+                                    </div>
+                                </div>
+                                <span id="tamil-card-status-badge" class="badge bg-primary px-3 py-2 fs-6">🟢 Ready for Input</span>
+                            </div>
+
+                            <!-- Summary Textarea Box -->
+                            <div class="p-3 bg-light border border-secondary-subtle rounded mb-3" style="background: #f8fafc !important;">
+                                <h6 class="text-primary tiny text-uppercase fw-bold mb-2"><i class="bi bi-chat-quote-fill me-1"></i> தமிழ் சுருக்கம் (Tamil Voice Summary Input)</h6>
+                                <textarea class="form-control form-control-lg text-dark bg-white border border-secondary-subtle fw-semibold p-3" id="manual-tamil-summary-textarea" rows="5" placeholder="Paste the Tamil voice summary here (e.g. வாடிக்கையாளர் புதிய சிமெண்ட் விலை கேட்டார். கடந்த மாதத்தை விட விலை அதிகமாக இருப்பதாக கூறினார். போட்டியாளர் குறைந்த விலையில் வழங்குவதாக தெரிவித்தார்...)..." maxlength="50000" style="color: #000000 !important; background-color: #ffffff !important; font-size: 1rem; border-radius: 10px;"></textarea>
+                                <div class="d-flex justify-content-between align-items-center mt-2 px-1">
+                                    <span class="text-secondary small fw-bold" id="tamil-summary-char-counter"><i class="bi bi-fonts me-1"></i> Characters: <strong id="tamil-summary-char-count" class="text-primary">0</strong> / 50,000</span>
+                                    <span class="text-muted tiny"><i class="bi bi-shield-check me-1 text-success"></i> UTF-8 Tamil & English Supported</span>
+                                </div>
+                            </div>
+
+                            <!-- Proceed & Analyze Button -->
+                            <button type="button" class="btn btn-primary btn-lg w-100 py-3 fw-bold d-flex align-items-center justify-content-center gap-2 shadow" id="btn-proceed-and-analyze" style="border-radius: 12px; font-size: 1.1rem; background: linear-gradient(135deg, #2563eb, #1d4ed8);">
+                                <i class="bi bi-play-circle-fill fs-5"></i>
+                                <span>Proceed & Analyze (தொடரவும் & பகுப்பாய்வு செய்யவும்)</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sync History Table -->
+                <div class="dashboard-panel mt-4">
+                    <div class="panel-header mb-3">
+                        <h5 class="text-white fw-bold m-0" data-i18n="sync_history_title">Sync History (Last 10 Operations)</h5>
+                        <span class="text-muted tiny" data-i18n="sync_history_subtitle">Review historical synchronization duration and downloaded files counts</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="sync-history-table" class="table text-white w-100">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="sync_col_date">Date</th>
+                                    <th data-i18n="sync_col_downloaded">Downloaded Files</th>
+                                    <th data-i18n="sync_col_analyzed">Analyzed Files</th>
+                                    <th data-i18n="sync_col_duration">Duration</th>
+                                    <th data-i18n="sync_col_status">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sync-history-tbody">
+                                <!-- Loaded dynamically via REST API -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 VIEW 3.5: POSTER ANALYSIS
+                 ========================================== -->
+            <section id="view-poster-analysis" class="content-section d-none">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h4 class="text-white fw-bold mb-1" data-i18n="poster_title">Poster Analysis</h4>
+                        <p class="text-muted small mb-0" data-i18n="poster_subtitle">Analyze marketing posters using OCR and AI.</p>
+                    </div>
+                </div>
+
+                <!-- Summary Cards Row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <span class="stat-title uppercase tracking-wide d-block" data-i18n="card_total_posters">TOTAL POSTERS</span>
+                            <span class="stat-value text-white d-block my-1" id="card-total-posters">0</span>
+                            <span class="stat-delta text-primary" data-i18n="card_total_posters_sub">Cumulative entries</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <span class="stat-title uppercase tracking-wide d-block" data-i18n="card_today_posters">TODAY'S UPLOADS</span>
+                            <span class="stat-value text-white d-block my-1" id="card-today-posters">0</span>
+                            <span class="stat-delta text-success" data-i18n="card_today_posters_sub">Uploaded today</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <span class="stat-title uppercase tracking-wide d-block" data-i18n="card_categories_count">CATEGORIES</span>
+                            <span class="stat-value text-white d-block my-1" id="card-categories-count">0</span>
+                            <span class="stat-delta text-info" data-i18n="card_categories_sub">Unique segments</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <span class="stat-title uppercase tracking-wide d-block" data-i18n="card_languages_count">LANGUAGES</span>
+                            <span class="stat-value text-white d-block my-1" id="card-languages-count">1</span>
+                            <span class="stat-delta text-warning" data-i18n="card_languages_sub">Detected languages</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <span class="stat-title uppercase tracking-wide d-block" data-i18n="card_ocr_conf">AVG OCR CONF</span>
+                            <span class="stat-value text-white d-block my-1" id="card-avg-ocr">0%</span>
+                            <span class="stat-delta text-danger" data-i18n="card_ocr_conf_sub">Text accuracy</span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="stat-card">
+                            <span class="stat-title uppercase tracking-wide d-block" data-i18n="card_ai_conf">AVG AI CONF</span>
+                            <span class="stat-value text-white d-block my-1" id="card-avg-ai">0%</span>
+                            <span class="stat-delta text-success" data-i18n="card_ai_conf_sub">LLM confidence</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-6">
+                        <div class="dashboard-panel" style="min-height: 280px;">
+                            <div class="panel-header mb-3">
+                                <h5 class="text-white fw-bold m-0" data-i18n="poster_chart_cat">Category Distribution</h5>
+                                <span class="text-muted tiny" data-i18n="poster_chart_cat_sub">Analysis count grouped by marketing focus</span>
+                            </div>
+                            <div class="chart-container" style="height: 200px; position: relative;">
+                                <canvas id="chart-poster-categories"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="dashboard-panel" style="min-height: 280px;">
+                            <div class="panel-header mb-3">
+                                <h5 class="text-white fw-bold m-0" data-i18n="poster_chart_lang">Language breakdown</h5>
+                                <span class="text-muted tiny" data-i18n="poster_chart_lang_sub">Detections of multilingual content</span>
+                            </div>
+                            <div class="chart-container" style="height: 200px; position: relative;">
+                                <canvas id="chart-poster-languages"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Work Row: Upload & Preview / AI Results -->
+                <div class="row g-4 mb-4">
+                    <!-- Left: Upload & Preview -->
+                    <div class="col-xl-6">
+                        <div class="dashboard-panel h-100">
+                            <div class="panel-header mb-3">
+                                <h5 class="text-white fw-bold m-0" data-i18n="poster_panel_upload">Upload Poster</h5>
+                                <span class="text-muted tiny" data-i18n="poster_panel_upload_sub">Supports PNG, JPG, JPEG, WEBP up to 50MB</span>
+                            </div>
+
+                            <!-- Upload Dropzone -->
+                            <div id="poster-dropzone" class="border border-dashed border-secondary rounded p-4 text-center mb-3 bg-dark-tint-2" style="cursor: pointer;">
+                                <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="text-muted mb-2"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                                <p class="text-white small mb-1" data-i18n="dropzone_select">Drag & Drop or Click to Select Files</p>
+                                <span class="text-muted tiny" data-i18n="poster_formats">Accepts PNG, JPG, JPEG, WEBP up to 50MB</span>
+                            </div>
+                            <input type="file" id="poster-file-input" class="d-none" accept=".png,.jpg,.jpeg,.webp">
+
+                            <!-- File Progress / Metadata Card -->
+                            <div id="poster-upload-progress-card" class="p-3 bg-dark-tint-2 border border-secondary-subtle rounded mb-3 d-none">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-white small fw-bold" id="poster-filename">poster.png</span>
+                                    <span class="text-muted tiny" id="poster-filesize">0 KB</span>
+                                </div>
+                                <div class="progress mb-2" style="height: 6px; background-color: #111827;">
+                                    <div class="progress-bar" id="poster-progress-bar" role="progressbar" style="width: 0%;"></div>
+                                </div>
+                                <div class="d-flex justify-content-between text-muted tiny">
+                                    <span id="poster-resolution">Resolution: N/A</span>
+                                    <span id="poster-percent">0%</span>
+                                </div>
+                            </div>
+
+                            <!-- Image Preview Area -->
+                            <div id="poster-preview-wrapper" class="position-relative bg-dark-tint-2 rounded border border-secondary mb-3 d-none" style="min-height: 250px; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                                <img id="poster-preview-img" src="" alt="Poster Preview" style="max-height: 350px; width: auto; object-fit: contain; transition: transform 0.2s ease;">
+                                
+                                <!-- Metadata badge overlay -->
+                                <div class="position-absolute bottom-0 start-0 p-2 bg-dark-opacity-70 text-white tiny rounded-end" id="poster-metadata-overlay">
+                                    Resolution: 0x0 | Size: 0KB
+                                </div>
+
+                                <!-- Rotation / Zoom Controls -->
+                                <div class="position-absolute top-0 end-0 p-2 d-flex gap-1 bg-dark-opacity-70 rounded-bottom">
+                                    <button class="btn btn-outline-light btn-xs p-1" id="btn-preview-rotate" title="Rotate"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17"/></svg></button>
+                                    <button class="btn btn-outline-light btn-xs p-1" id="btn-preview-zoom-in" title="Zoom In"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg></button>
+                                    <button class="btn btn-outline-light btn-xs p-1" id="btn-preview-zoom-out" title="Zoom Out"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg></button>
+                                    <button class="btn btn-outline-light btn-xs p-1" id="btn-preview-fullscreen" title="Fullscreen"><svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4h4M4 16v4h4M20 8V4h-4M20 16v4h-4"/></svg></button>
+                                </div>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary btn-sm flex-grow-1" id="btn-analyze-poster" disabled data-i18n="btn_analyze_poster">Analyze Poster</button>
+                                <button class="btn btn-outline-secondary btn-sm" id="btn-clear-poster" disabled data-i18n="btn_clear">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: AI Results -->
+                    <div class="col-xl-6">
+                        <div class="dashboard-panel h-100 d-flex flex-column">
+                            <div class="panel-header mb-3">
+                                <h5 class="text-white fw-bold m-0" data-i18n="poster_panel_results">AI Analysis Results</h5>
+                                <span class="text-muted tiny" data-i18n="poster_panel_results_sub">Real-time structured feedback and marketing suggestions</span>
+                            </div>
+
+                            <!-- Placeholder/Loader -->
+                            <div id="poster-results-placeholder" class="text-center py-5 my-auto text-muted">
+                                <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" class="mb-3"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                                <p class="mb-0" data-i18n="poster_results_waiting">Upload and click Analyze to view extracted details and scores</p>
+                            </div>
+
+                            <!-- Results Accordion/Tabs container -->
+                            <div id="poster-results-content" class="d-none overflow-auto flex-grow-1" style="max-height: 500px;">
+                                <div class="accordion custom-accordion" id="posterAccordion">
+                                    
+                                    <!-- 1. Extracted OCR Text (Required First) -->
+                                    <div class="accordion-item mb-2 rounded border border-secondary-subtle">
+                                        <h2 class="accordion-header d-flex align-items-center justify-content-between pe-3 bg-dark-tint-2">
+                                            <button class="accordion-button fw-bold text-white bg-transparent flex-grow-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOcr">
+                                                <i class="bi bi-file-text me-2 text-primary"></i>Extracted OCR Text
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-info tiny text-nowrap ms-2" id="btn-copy-ocr" type="button">
+                                                <i class="bi bi-clipboard me-1"></i>Copy OCR Text
+                                            </button>
+                                        </h2>
+                                        <div id="collapseOcr" class="accordion-collapse collapse show" data-bs-parent="#posterAccordion">
+                                            <div class="accordion-body small font-monospace p-3 bg-black-tint rounded text-light user-select-all" id="res-ocr-text" style="white-space: pre-wrap; max-height: 200px; overflow-y: auto;">
+                                                OCR Text goes here...
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 2. Important Information (Structured Card) -->
+                                    <div class="accordion-item mb-2 rounded border border-secondary-subtle">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button fw-bold text-white bg-dark-tint-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInfo">
+                                                <i class="bi bi-info-circle me-2 text-warning"></i>Important Information
+                                            </button>
+                                        </h2>
+                                        <div id="collapseInfo" class="accordion-collapse collapse show" data-bs-parent="#posterAccordion">
+                                            <div class="accordion-body small">
+                                                <div class="row g-2" id="res-important-info-grid">
+                                                    <!-- Filled dynamically -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Overall Summary (Short 1-3 sentences) -->
+                                    <div class="accordion-item mb-2 rounded border border-secondary-subtle">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button fw-bold text-white bg-dark-tint-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSum">
+                                                <i class="bi bi-card-text me-2 text-success"></i>Overall Summary
+                                            </button>
+                                        </h2>
+                                        <div id="collapseSum" class="accordion-collapse collapse show" data-bs-parent="#posterAccordion">
+                                            <div class="accordion-body small lh-base text-light" id="res-overall-summary">
+                                                Summary text goes here...
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 4. AI Marketing Suggestions / Insights -->
+                                    <div class="accordion-item rounded border border-secondary-subtle">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed fw-bold text-white bg-dark-tint-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSugg">
+                                                <i class="bi bi-lightbulb me-2 text-info"></i>AI Marketing Suggestions
+                                            </button>
+                                        </h2>
+                                        <div id="collapseSugg" class="accordion-collapse collapse" data-bs-parent="#posterAccordion">
+                                            <div class="accordion-body small">
+                                                <ul class="mb-0 ps-3 text-warning" id="res-suggestions-list">
+                                                    <!-- Filled dynamically -->
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: History Table -->
+                <div class="dashboard-panel">
+                    <div class="panel-header mb-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div>
+                            <h5 class="text-white fw-bold m-0" data-i18n="poster_history_title">Analysis History</h5>
+                            <span class="text-muted tiny" data-i18n="poster_history_subtitle">Manage and review all processed promotional materials</span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="poster-history-table" class="table text-white w-100">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="th_thumbnail">Thumbnail</th>
+                                    <th data-i18n="poster_col_title">Poster Title</th>
+                                    <th data-i18n="poster_col_category">Category</th>
+                                    <th data-i18n="poster_col_lang">Language</th>
+                                    <th data-i18n="poster_col_uploader">Uploaded By</th>
+                                    <th data-i18n="poster_col_date">Upload Date</th>
+                                    <th data-i18n="poster_col_summary">Summary</th>
+                                    <th data-i18n="poster_col_status">Status</th>
+                                    <th data-i18n="poster_col_actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="poster-history-tbody">
+                                <!-- Loaded dynamically via REST API -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 VIEW 4: AI ASSISTANT
+                 ========================================== -->
+            <section id="view-assistant" class="content-section d-none">
+                <div class="assistant-container d-flex">
+                    
+                    <!-- Left Sidebar - Prompts & Suggestion Cards -->
+                    <div class="assistant-sidebar p-3 d-none d-lg-block">
+                        <h6 class="text-white fw-bold mb-3" data-i18n="prompt_header">Quick Prompts</h6>
+                        <div class="prompt-suggestions d-flex flex-column gap-2">
+                            <button class="btn btn-dark-card text-start p-2 small suggestion-item" data-prompt="Show today's reports.">
+                                <span class="d-block fw-semibold text-white" data-i18n="prompt_today">Today's Reports</span>
+                                <span class="text-muted tiny" data-i18n="prompt_today_sub">List all submissions entered today</span>
+                            </button>
+                            <button class="btn btn-dark-card text-start p-2 small suggestion-item" data-prompt="List all collections.">
+                                <span class="d-block fw-semibold text-white" data-i18n="prompt_collections">List Collections</span>
+                                <span class="text-muted tiny" data-i18n="prompt_collections_sub">Aggregate client payment receipts</span>
+                            </button>
+                            <button class="btn btn-dark-card text-start p-2 small suggestion-item" data-prompt="Show all complaints.">
+                                <span class="d-block fw-semibold text-white" data-i18n="prompt_complaints">Show Complaints</span>
+                                <span class="text-muted tiny" data-i18n="prompt_complaints_sub">Display all registered service issues</span>
+                            </button>
+                            <button class="btn btn-dark-card text-start p-2 small suggestion-item" data-prompt="Compare monthly performance.">
+                                <span class="d-block fw-semibold text-white" data-i18n="prompt_perf">Performance Rank</span>
+                                <span class="text-muted tiny" data-i18n="prompt_perf_sub">Graphically tally sales totals</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chat Container -->
+                    <div class="chat-wrapper d-flex flex-column flex-grow-1">
+                        <!-- Message Window -->
+                        <div class="chat-messages-area p-3 flex-grow-1" id="chat-messages">
+                            <div class="assistant-bubble d-flex gap-3 mb-4">
+                                <div class="assistant-avatar">AI</div>
+                                <div class="bubble-content">
+                                    <p class="mb-0" data-i18n="chat_welcome">Hello! I am your PaccaPro AI Assistant. I operate offline and have direct access to your local SQLite sales database.</p>
+                                    <p class="mb-0 mt-2" data-i18n="chat_welcome_sub">Ask me things like:</p>
+                                    <ul class="mb-0 mt-1 pl-3">
+                                        <li>"Show today's reports"</li>
+                                        <li>"List today's collections"</li>
+                                        <li>"Show Balaji's clients today"</li>
+                                        <li>"Show all complaints"</li>
+                                        <li>"Compare monthly performance"</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat input bar -->
+                        <div class="chat-input-bar p-3 border-top border-dark">
+                            <form id="chat-form" class="d-flex gap-2">
+                                <input type="text" class="form-control" id="chat-input" data-i18n-placeholder="chat_placeholder" placeholder="Ask PaccaPro AI..." autocomplete="off" required>
+                                <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center px-3" id="btn-send-message">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ==========================================
+         REPORT DETAIL MODAL
+         ========================================== -->
+    <div class="modal fade" id="reportDetailModal" tabindex="-1" aria-labelledby="reportDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
+                <div class="modal-header border-dark bg-dark-tint-2">
+                    <h5 class="modal-title fw-bold" id="reportDetailModalLabel" data-i18n="modal_title">Client Conversation Detail</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-dark-tint-1 p-4" id="modal-report-content">
+                    <!-- Loaded dynamically via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         REPRESENTATIVE RANKING DETAIL MODAL
+         ========================================== -->
+    <div class="modal fade" id="repRankingDetailModal" tabindex="-1" aria-labelledby="repRankingDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
+                <div class="modal-header border-dark bg-dark-tint-2">
+                    <h5 class="modal-title fw-bold" id="repRankingDetailModalLabel">Representative Performance Coverage</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-dark-tint-1 p-4">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 pb-3 border-bottom border-dark">
+                        <div>
+                            <h4 class="fw-bold text-primary m-0" id="ranking-modal-rep-name">-</h4>
+                            <span class="text-muted tiny">Performance level: <span class="badge" id="ranking-modal-level">-</span></span>
+                        </div>
+                        <div class="text-end">
+                            <h4 class="fw-bold text-warning m-0" id="ranking-modal-total-stars">-</h4>
+                            <span class="text-muted tiny">Percentage: <span id="ranking-modal-percentage">-</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="row text-center bg-dark-tint-2 p-3 rounded g-2">
+                            <div class="col-6 col-sm-3 border-end border-dark">
+                                <span class="text-muted tiny text-uppercase d-block">Period</span>
+                                <span class="fw-bold text-white" id="ranking-modal-period">-</span>
+                            </div>
+                            <div class="col-6 col-sm-3 border-end border-dark">
+                                <span class="text-muted tiny text-uppercase d-block">Visits / Reports</span>
+                                <span class="fw-bold text-white" id="ranking-modal-visits">0</span>
+                            </div>
+                            <div class="col-6 col-sm-3 border-end border-dark">
+                                <span class="text-muted tiny text-uppercase d-block">Overall Rank</span>
+                                <span class="fw-bold text-primary" id="ranking-modal-rank">-</span>
+                            </div>
+                            <div class="col-6 col-sm-3">
+                                <span class="text-muted tiny text-uppercase d-block">Categories Covered</span>
+                                <span class="fw-bold text-success" id="ranking-modal-completed-cats">0 / 10</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h5 class="fw-bold mb-3">Topic Discussion Breakdown & AI Explanations</h5>
+                    <div id="ranking-modal-categories-list">
+                        <!-- Loaded dynamically via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         POSTER DETAIL MODAL
+         ========================================== -->
+    <div class="modal fade" id="posterDetailModal" tabindex="-1" aria-labelledby="posterDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white">
+                <div class="modal-header border-dark bg-dark-tint-2">
+                    <h5 class="modal-title fw-bold" id="posterDetailModalLabel">Poster Analysis Detail</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-dark-tint-1 p-4">
+                    <div class="row g-4">
+                        <!-- Left side: Image and details -->
+                        <div class="col-lg-5 text-center">
+                            <div class="p-2 border border-secondary rounded bg-dark-tint-2 mb-3">
+                                <img id="detail-poster-img" src="" alt="Poster" class="img-fluid rounded" style="max-height: 400px; object-fit: contain;">
+                            </div>
+                            <div class="text-start tiny text-muted" id="detail-poster-meta">
+                                Filename: N/A | Uploaded By: N/A
+                            </div>
+                        </div>
+                        <!-- Right side: Extracted details -->
+                        <div class="col-lg-7">
+                            <div class="mb-3">
+                                <label class="text-muted tiny text-uppercase">Title</label>
+                                <input type="text" class="form-control bg-dark-tint-2 text-white border-secondary" id="detail-poster-title">
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="text-muted tiny text-uppercase">Category</label>
+                                    <select class="form-select bg-dark-tint-2 text-white border-secondary" id="detail-poster-category">
+                                        <option value="Restaurant">Restaurant</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Healthcare">Healthcare</option>
+                                        <option value="Real Estate">Real Estate</option>
+                                        <option value="Marketing">Marketing</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="text-muted tiny text-uppercase">Language</label>
+                                    <input type="text" class="form-control bg-dark-tint-2 text-white border-secondary" id="detail-poster-language" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="text-muted tiny text-uppercase">Main Heading</label>
+                                    <input type="text" class="form-control bg-dark-tint-2 text-white border-secondary" id="detail-poster-heading">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="text-muted tiny text-uppercase">Sub Heading</label>
+                                    <input type="text" class="form-control bg-dark-tint-2 text-white border-secondary" id="detail-poster-subheading">
+                                </div>
+                            </div>
+
+                            <ul class="nav nav-tabs custom-tabs mb-3" id="detailTab" role="tablist">
+                                <li class="nav-item">
+                                    <button class="nav-link active" id="summary-tab" data-bs-toggle="tab" data-bs-target="#detail-tab-summary" type="button">Summary</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#detail-tab-contacts" type="button">Important Info</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" id="ocr-tab" data-bs-toggle="tab" data-bs-target="#detail-tab-ocr" type="button">OCR Text</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="detailTabContent" style="max-height: 250px; overflow-y: auto;">
+                                <div class="tab-pane fade show active small" id="detail-tab-summary" role="tabpanel">
+                                    <p id="detail-summary-p">Loading...</p>
+                                    <h6 class="mt-3 fw-bold">Key Highlights</h6>
+                                    <ul id="detail-highlights-ul" class="ps-3"></ul>
+                                </div>
+                                <div class="tab-pane fade small" id="detail-tab-contacts" role="tabpanel">
+                                    <ul class="list-unstyled" id="detail-contacts-ul"></ul>
+                                </div>
+                                <div class="tab-pane fade small font-monospace bg-black-tint p-3 rounded" id="detail-tab-ocr" role="tabpanel" style="white-space: pre-wrap;">
+                                    Loading...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-dark bg-dark-tint-2">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="btn-detail-save">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================
+         CREATE REPORT MODAL
+         ========================================== -->
+    <div class="modal fade" id="createReportModal" tabindex="-1" aria-labelledby="createReportModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content text-white bg-dark-sidebar border-secondary" style="border: 1px solid var(--border-color);">
+                <div class="modal-header border-dark bg-dark-tint-2">
+                    <h5 class="modal-title fw-bold" id="createReportModalLabel" data-i18n="modal_submit_title">Submit Daily Sales Report</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-dark-tint-1 p-4">
+                    <form id="create-report-form">
+                        
+                        <!-- SECTION 1: BASIC VISIT INFORMATION -->
+                        <div class="card mb-4 bg-dark-tint-2 border-secondary">
+                            <div class="card-header bg-dark border-bottom border-secondary py-2">
+                                <h6 class="m-0 fw-bold text-white uppercase tracking-wide small" data-i18n="section_basic">BASIC VISIT INFORMATION</h6>
+                            </div>
+                            <div class="card-body p-3">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-semibold" data-i18n="form_rep">Sales Representative / Rep *</label>
+                                        <select class="form-select bg-dark-tint-1 border-secondary text-white" id="form-rep" required>
+                                            <!-- Loaded dynamically -->
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-semibold" data-i18n="form_date">Date *</label>
+                                        <input type="date" class="form-control bg-dark-tint-1 border-secondary text-white text-nowrap" id="form-date" required>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label text-muted small fw-semibold" data-i18n="form_client">Client Name *</label>
+                                        <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white" id="form-client" placeholder="Enter client name" required>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="form-label text-muted small fw-semibold" data-i18n="form_summary">Summary *</label>
+                                        <textarea class="form-control bg-dark-tint-1 border-secondary text-white" id="form-summary" rows="2" placeholder="Write visit summary..." required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION 2: SALES & COLLECTION -->
+                        <div class="card mb-4 bg-dark-tint-2 border-secondary">
+                            <div class="card-header bg-dark border-bottom border-secondary py-2">
+                                <h6 class="m-0 fw-bold text-white uppercase tracking-wide small" data-i18n="section_sales_coll">SALES & COLLECTION</h6>
+                            </div>
+                            <div class="card-body p-3">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-white small fw-bold" data-i18n="section_sales">Sales</label>
+                                        <div class="border border-dark p-2 rounded bg-black-tint">
+                                            <label class="form-label text-muted tiny text-uppercase">Product Name</label>
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-sales-product" placeholder="Cement Primer">
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <label class="form-label text-muted tiny text-uppercase">Quantity</label>
+                                                    <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-sales-qty" placeholder="15">
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-label text-muted tiny text-uppercase">Amount (INR)</label>
+                                                    <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-sales-amount" placeholder="3600">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-white small fw-bold" data-i18n="section_collection">Collection</label>
+                                        <div class="border border-dark p-2 rounded bg-black-tint">
+                                            <label class="form-label text-muted tiny text-uppercase">Amount (INR)</label>
+                                            <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-coll-amount" placeholder="58000">
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <label class="form-label text-muted tiny text-uppercase">Payment Mode</label>
+                                                    <select class="form-select bg-dark-tint-1 border-secondary text-white btn-sm" id="form-coll-mode">
+                                                        <option value="GPay">GPay</option>
+                                                        <option value="Cash">Cash</option>
+                                                        <option value="Bank Transfer">Bank Transfer</option>
+                                                        <option value="Cheque">Cheque</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-label text-muted tiny text-uppercase">Status</label>
+                                                    <select class="form-select bg-dark-tint-1 border-secondary text-white btn-sm" id="form-coll-status">
+                                                        <option value="Collected">Collected</option>
+                                                        <option value="Pending">Pending</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION 3: MARKET & COMPETITION -->
+                        <div class="card mb-4 bg-dark-tint-2 border-secondary">
+                            <div class="card-header bg-dark border-bottom border-secondary py-2">
+                                <h6 class="m-0 fw-bold text-white uppercase tracking-wide small" data-i18n="section_market">MARKET & COMPETITION</h6>
+                            </div>
+                            <div class="card-body p-3">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-white small fw-bold" data-i18n="section_competition">Competition</label>
+                                        <div class="border border-dark p-2 rounded bg-black-tint">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-comp-name" placeholder="Competitor Name (e.g. Asian Paints)">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-comp-product" placeholder="Competitor Product">
+                                            <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-comp-price" placeholder="Competitor Price">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-comp-offer" placeholder="Activity / Offer">
+                                            <textarea class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-comp-remarks" rows="1" placeholder="Remarks"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-white small fw-bold" data-i18n="section_price_list">Price List</label>
+                                        <div class="border border-dark p-2 rounded bg-black-tint">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-price-product" placeholder="Product Name">
+                                            <div class="row g-2 mb-2">
+                                                <div class="col-4">
+                                                    <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-price-our" placeholder="Our Price">
+                                                </div>
+                                                <div class="col-4">
+                                                    <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-price-market" placeholder="Market Price">
+                                                </div>
+                                                <div class="col-4">
+                                                    <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-price-comp" placeholder="Competitor Price">
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-price-diff" placeholder="Price Difference">
+                                            <textarea class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-price-remarks" rows="1" placeholder="Remarks"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION 4: PRODUCT INFORMATION -->
+                        <div class="card mb-4 bg-dark-tint-2 border-secondary">
+                            <div class="card-header bg-dark border-bottom border-secondary py-2">
+                                <h6 class="m-0 fw-bold text-white uppercase tracking-wide small" data-i18n="section_product_info">PRODUCT INFORMATION</h6>
+                            </div>
+                            <div class="card-body p-3">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-white small fw-bold" data-i18n="section_product">Product Request</label>
+                                        <div class="border border-dark p-2 rounded bg-black-tint mb-3">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-prod-name" placeholder="Product Name">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-prod-req" placeholder="Requirement Details">
+                                            <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-prod-qty" placeholder="Quantity Required">
+                                            <textarea class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-prod-remarks" rows="1" placeholder="Remarks"></textarea>
+                                        </div>
+
+                                        <label class="form-label text-white small fw-bold" data-i18n="section_new_products">Our New Products</label>
+                                        <div class="border border-dark p-2 rounded bg-black-tint">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-new-name" placeholder="New Product Name">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-new-interest" placeholder="Customer Interest">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-new-orders" placeholder="Orders/Requirement">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-new-feedback" placeholder="Customer Feedback">
+                                            <textarea class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-new-remarks" rows="1" placeholder="Remarks"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-white small fw-bold" data-i18n="section_most_sell">Most Sell Products</label>
+                                        <div class="border border-dark p-2 rounded bg-black-tint mb-3">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-most-name" placeholder="Product Name">
+                                            <div class="row g-2 mb-2">
+                                                <div class="col-6">
+                                                    <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-most-qty" placeholder="Quantity Sold">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-most-amount" placeholder="Sales Amount">
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-most-demand" placeholder="Demand Level">
+                                            <textarea class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-most-remarks" rows="1" placeholder="Remarks"></textarea>
+                                        </div>
+
+                                        <label class="form-label text-white small fw-bold" data-i18n="section_pending_stock">Pending Stock</label>
+                                        <div class="border border-dark p-2 rounded bg-black-tint">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-stock-name" placeholder="Product Name">
+                                            <div class="row g-2 mb-2">
+                                                <div class="col-6">
+                                                    <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-stock-req" placeholder="Required Qty">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-stock-avail" placeholder="Available Stock">
+                                                </div>
+                                            </div>
+                                            <div class="row g-2 mb-2">
+                                                <div class="col-6">
+                                                    <input type="number" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-stock-pend" placeholder="Pending Qty">
+                                                </div>
+                                                <div class="col-6">
+                                                    <input type="date" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm text-nowrap" id="form-stock-date">
+                                                </div>
+                                            </div>
+                                            <textarea class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-stock-remarks" rows="1" placeholder="Remarks"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION 5: SERVICE INFORMATION -->
+                        <div class="card mb-4 bg-dark-tint-2 border-secondary">
+                            <div class="card-header bg-dark border-bottom border-secondary py-2">
+                                <h6 class="m-0 fw-bold text-white uppercase tracking-wide small" data-i18n="section_services">SERVICE INFORMATION</h6>
+                            </div>
+                            <div class="card-body p-3">
+                                <div class="border border-dark p-2 rounded bg-black-tint">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-srv-name" placeholder="Service Name (e.g. Delivery Support)">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-srv-status" placeholder="Service Status">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-srv-feedback" placeholder="Customer Feedback">
+                                            <input type="text" class="form-control bg-dark-tint-1 border-secondary text-white btn-sm mb-2" id="form-srv-complaint" placeholder="Issue/Complaint">
+                                        </div>
+                                        <div class="col-12">
+                                            <textarea class="form-control bg-dark-tint-1 border-secondary text-white btn-sm" id="form-srv-remarks" rows="1" placeholder="Remarks"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SECTION 6: EXISTING FOLLOW-UP INFORMATION -->
+                        <div class="card mb-4 bg-dark-tint-2 border-secondary">
+                            <div class="card-header bg-dark border-bottom border-secondary py-2">
+                                <h6 class="m-0 fw-bold text-white uppercase tracking-wide small" data-i18n="section_follow_up">EXISTING FOLLOW-UP INFORMATION</h6>
+                            </div>
+                            <div class="card-body p-3">
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted small fw-semibold" data-i18n="form_follow_up">Follow-up Date</label>
+                                        <input type="date" class="form-control bg-dark-tint-1 border-secondary text-white text-nowrap" id="form-follow-up">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted small fw-semibold" data-i18n="form_sentiment">Sentiment</label>
+                                        <select class="form-select bg-dark-tint-1 border-secondary text-white" id="form-sentiment" required>
+                                            <option value="Positive">Positive</option>
+                                            <option value="Medium" selected>Medium</option>
+                                            <option value="Not Good">Not Good</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label text-muted small fw-semibold" data-i18n="form_priority">Priority</label>
+                                        <select class="form-select bg-dark-tint-1 border-secondary text-white" id="form-priority">
+                                            <option value="Medium">Medium</option>
+                                            <option value="High">High</option>
+                                            <option value="Low">Low</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal" data-i18n="btn_cancel">Cancel</button>
+                            <button type="submit" class="btn btn-primary px-4 fw-bold" data-i18n="btn_submit">Submit Report</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         PROCESSING LOADER SCREEN (FULL OVERLAY)
+         ========================================== -->
+    <div id="processing-overlay" class="d-none">
+        <div class="text-center">
+            <div class="spinner-grow text-primary mb-3" style="width: 3rem; height: 3rem;" role="status"></div>
+            <h4 class="text-white fw-bold" id="processing-title" data-i18n="processing_title">AI Processing Pipeline Running</h4>
+            <p class="text-muted small" id="processing-status" data-i18n="processing_status">Transcribing audio and analyzing conversation...</p>
+            <div class="progress mx-auto" style="width: 250px; height: 6px; background-color: #111827;">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" id="processing-progress" role="progressbar" style="width: 20%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Local JS Dependencies -->
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/bootstrap.bundle.min.js"></script>
+    <script src="lib/chart.umd.js"></script>
+    <script src="lib/jquery.dataTables.min.js"></script>
+    
+    <!-- Custom SPA scripts -->
+    <script src="js/dealers_data.js"></script>
+    <script src="js/app.js?v=37.0"></script>
+    <!-- ==========================================
+         LIVE INSIGHTS DETAIL MODAL
+         ========================================== -->
+    <div class="modal fade" id="liveInsightsDetailModal" tabindex="-1" aria-labelledby="liveInsightsDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content custom-modal-bg text-white border-0">
+                <div class="modal-header border-bottom border-secondary pb-3">
+                    <div>
+                        <h5 class="modal-title fw-bold" id="liveInsightsDetailModalLabel">Live Insight Details</h5>
+                        <div class="d-flex align-items-center mt-1">
+                            <h4 class="fw-bold text-primary m-0 me-3" id="insight-modal-rep-name">-</h4>
+                            <span class="text-muted tiny">Report Time: <span id="insight-modal-time" class="text-white">-</span></span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-4">
+                    <div class="row g-4">
+                        <div class="col-12">
+                            <h6 class="text-uppercase text-muted small fw-bold mb-2">🔥 Most Important Point</h6>
+                            <p id="insight-modal-important-point" class="fs-5 mb-0">-</p>
+                        </div>
+                        <div class="col-12">
+                            <h6 class="text-uppercase text-muted small fw-bold mb-2">🔑 Important Keywords</h6>
+                            <div id="insight-modal-keywords"></div>
+                        </div>
+                        <div class="col-12">
+                            <h6 class="text-uppercase text-muted small fw-bold mb-2">💬 Sales Rep Speak</h6>
+                            <p id="insight-modal-rep-speak" class="mb-0 text-light">-</p>
+                        </div>
+                        <div class="col-12 border-top border-secondary pt-3 mt-3">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <h6 class="text-uppercase text-muted small fw-bold mb-1">Customer Discussion</h6>
+                                    <p id="insight-modal-customer" class="small">-</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-uppercase text-muted small fw-bold mb-1">Dealer Discussion</h6>
+                                    <p id="insight-modal-dealer" class="small">-</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-uppercase text-muted small fw-bold mb-1">Sales Information</h6>
+                                    <p id="insight-modal-sales" class="small">-</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-uppercase text-muted small fw-bold mb-1">Collection Information</h6>
+                                    <p id="insight-modal-collection" class="small">-</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-uppercase text-muted small fw-bold mb-1">Competition Information</h6>
+                                    <p id="insight-modal-competition" class="small">-</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-uppercase text-muted small fw-bold mb-1">Product Information</h6>
+                                    <p id="insight-modal-product" class="small">-</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-uppercase text-muted small fw-bold mb-1">Price Information</h6>
+                                    <p id="insight-modal-price" class="small">-</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-uppercase text-muted small fw-bold mb-1">New Product Information</h6>
+                                    <p id="insight-modal-new-product" class="small">-</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-uppercase text-muted small fw-bold mb-1">Stock Information</h6>
+                                    <p id="insight-modal-stock" class="small">-</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 border-top border-secondary pt-3 mt-3">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <h6 class="text-uppercase text-muted small fw-bold mb-1">➡️ Follow-up</h6>
+                                    <p id="insight-modal-followup" class="mb-0">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-top border-secondary d-flex justify-content-between">
+                    <span class="badge" id="insight-modal-priority">Priority</span>
+                    <span class="badge" id="insight-modal-sentiment">Sentiment</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

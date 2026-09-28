@@ -1,0 +1,11 @@
+{
+  "database_path": "database/database.db",
+  "uploads_path": "uploads",
+  "models_path": "models",
+  "logs_path": "logs",
+  "ollama_url": "http://localhost:11434",
+  "elevenlabs_api_key": "sk_5f63eb26b64626ecbb5c5f2d410bff354142d2b9eaf53965",
+  "elevenlabs_stt_model": "scribe_v2",
+  "host": "127.0.0.1",
+  "port": 8000
+}

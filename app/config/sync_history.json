@@ -1,0 +1,30 @@
+[
+    {
+        "date": "2026-08-10 17:56:04",
+        "downloaded_files": 2,
+        "analyzed_files": 2,
+        "duration": "327.1s",
+        "status": "Success"
+    },
+    {
+        "date": "2026-08-06 14:15:02",
+        "downloaded_files": 2,
+        "analyzed_files": 2,
+        "duration": "0.1s",
+        "status": "Success"
+    },
+    {
+        "date": "2026-08-05 11:13:54",
+        "downloaded_files": 3,
+        "analyzed_files": 3,
+        "duration": "14.2s",
+        "status": "Success"
+    },
+    {
+        "date": "2026-08-03 09:13:54",
+        "downloaded_files": 2,
+        "analyzed_files": 2,
+        "duration": "9.8s",
+        "status": "Success"
+    }
+]

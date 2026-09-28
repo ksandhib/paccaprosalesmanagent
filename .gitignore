@@ -1,0 +1,44 @@
+# Python Caches & Virtual Envs
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# Environment and Secrets
+.env
+
+# SQLite Databases & Local Storage
+*.db
+database.db
+pasas.db
+
+# Heavy Binaries & Large AI Models
+ai_models/
+models/
+ffmpeg/
+ollama/
+*.exe
+*.zip
+*.tar.gz
+PaccaPro-AI.zip
+
+# Uploads, Temp, Logs, Exports, Backups, Scratch
+uploads/
+temp/
+logs/
+cache/
+backups/
+exports/
+reports/
+scratch/
+
+# IDE / System
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,788 @@
+/* ==========================================================================
+   DESIGN SYSTEM VARIABLES & THEME CONFIGURATIONS (WHITE / LIGHT THEME)
+   ========================================================================== */
+:root {
+    --bg-main: #f1f5f9;       /* Light slate-gray background */
+    --bg-sidebar: #ffffff;    /* Crisp white sidebar */
+    --bg-card: #ffffff;       /* Crisp white cards */
+    --bg-card-hover: #f8fafc;  /* Very light blue-gray for hover */
+    --border-color: #cbd5e1;   /* Soft slate-gray borders */
+    
+    --primary: #2563eb;       /* Sharp Enterprise Blue */
+    --primary-hover: #1d4ed8;
+    --primary-grad: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    
+    --text-main: #0f172a;     /* Dark slate main text */
+    --text-muted: #64748b;    /* Slate muted text */
+    
+    /* System State Colors */
+    --color-success: #10b981;
+    --color-warning: #ea580c;
+    --color-danger: #ef4444;
+    --color-info: #06b6d4;
+    --color-purple: #8b5cf6;
+    
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --border-radius-lg: 12px;
+    --border-radius-md: 8px;
+    --transition-speed: 0.25s;
+}
+
+/* ==========================================================================
+   NIGHT / DARK THEME OVERRIDES
+   ========================================================================== */
+body.dark-theme {
+    --bg-main: #0f172a;       /* Dark slate background */
+    --bg-sidebar: #1e293b;    /* Dark slate sidebar */
+    --bg-card: #1e293b;       /* Dark slate cards */
+    --bg-card-hover: #334155;  /* Slightly lighter slate for hover */
+    --border-color: #334155;   /* Dark slate borders */
+    
+    --text-main: #f8fafc;     /* Off-white text */
+    --text-muted: #94a3b8;    /* Muted gray text */
+    
+    --bg-card-tint: #1e293b;
+}
+
+body.dark-theme .login-card {
+    background-color: rgba(30, 41, 59, 0.9) !important;
+}
+
+body.dark-theme .login-input {
+    background-color: #0f172a !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+
+body.dark-theme #processing-overlay {
+    background-color: rgba(15, 23, 42, 0.9) !important;
+}
+
+body.dark-theme table.dataTable tbody tr {
+    background-color: #1e293b !important;
+}
+body.dark-theme table.dataTable tbody tr:hover {
+    background-color: #334155 !important;
+}
+body.dark-theme .table-filter-input {
+    background-color: #0f172a !important;
+    color: var(--text-main) !important;
+}
+body.dark-theme .dialog-bubble {
+    border-color: var(--border-color) !important;
+}
+body.dark-theme .speaker-rep { background-color: rgba(37, 99, 235, 0.15) !important; }
+body.dark-theme .speaker-client { background-color: rgba(234, 88, 12, 0.15) !important; }
+body.dark-theme .speaker-ai { background-color: rgba(139, 92, 246, 0.15) !important; }
+
+body.dark-theme .modal-header, 
+body.dark-theme .modal-body, 
+body.dark-theme .modal-footer, 
+body.dark-theme .modal-content {
+    background-color: #1e293b !important;
+    color: #f8fafc !important;
+    border-color: #334155 !important;
+}
+body.dark-theme .modal-body {
+    background-color: #0f172a !important;
+}
+body.dark-theme .modal-body .text-dark {
+    color: #f8fafc !important;
+}
+body.dark-theme .modal-body .bg-light {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+body.dark-theme .bubble-content {
+    background-color: #1e293b !important;
+    border-color: #334155 !important;
+}
+body.dark-theme .bubble-content .text-dark {
+    color: #f8fafc !important;
+}
+body.dark-theme .bubble-content th {
+    background-color: #0f172a !important;
+}
+body.dark-theme .form-select,
+body.dark-theme .form-control {
+    background-color: #0f172a !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+
+/* ==========================================================================
+   GLOBAL BODY & LAYOUT SETUP
+   ========================================================================== */
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+#btn-toggle-theme {
+    border-radius: 20px;
+    padding: 0.35rem 0.8rem;
+    background-color: var(--bg-card) !important;
+    color: var(--text-main) !important;
+    border: 1px solid var(--border-color) !important;
+    transition: all var(--transition-speed);
+}
+#btn-toggle-theme:hover {
+    background-color: var(--bg-card-hover) !important;
+    border-color: var(--primary) !important;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ==========================================================================
+   LOGIN SCREEN STYLING (LIGHT GRADIENT)
+   ========================================================================== */
+#login-screen {
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, #ffffff 0%, #cbd5e1 100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.login-input {
+    background-color: #ffffff !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+.login-input:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+}
+
+.btn-login {
+    background: var(--primary-grad);
+    border: none;
+    color: white !important;
+}
+.btn-login:hover {
+    background: var(--primary-hover);
+}
+
+.tiny {
+    font-size: 0.75rem;
+}
+.uppercase {
+    text-transform: uppercase;
+}
+.tracking-wide {
+    letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   MAIN DASHBOARD GRID LAYOUT (SIDEBAR & WRAPPER)
+   ========================================================================== */
+#main-interface {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Layout */
+.sidebar {
+    width: 260px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: var(--border-radius-md);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    transition: all var(--transition-speed);
+}
+.menu-item:hover {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+}
+.menu-item.active {
+    background-color: var(--primary);
+    color: white !important;
+}
+.menu-item.active * {
+    color: white !important;
+}
+.menu-icon {
+    display: flex;
+    align-items: center;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: white !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Main Content Wrapper */
+.content-wrapper {
+    margin-left: 260px;
+    padding: 2rem;
+    flex-grow: 1;
+    width: calc(100% - 260px);
+}
+
+.top-header {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Pulse indicator dot */
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-success);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+/* ==========================================================================
+   STAT CARDS & PANELS
+   ========================================================================== */
+.stat-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 1.25rem;
+    transition: transform var(--transition-speed);
+}
+.stat-card:hover {
+    transform: translateY(-2px);
+    background-color: var(--bg-card-hover);
+}
+.stat-title {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+.stat-delta {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.dashboard-panel {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+}
+
+.bg-dark-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+.bg-dark-card:hover {
+    background-color: var(--bg-card-hover);
+}
+
+/* ==========================================================================
+   CUSTOM TABLES & DATATABLES
+   ========================================================================== */
+.custom-table th {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+}
+.custom-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+    font-size: 0.9rem;
+}
+
+/* DataTables Overrides */
+.dataTables_wrapper {
+    color: var(--text-main) !important;
+}
+.dataTables_wrapper .dataTables_length, 
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_processing,
+.dataTables_wrapper .dataTables_paginate {
+    color: var(--text-muted) !important;
+    margin: 1rem 0;
+}
+.dataTables_wrapper .dataTables_filter input {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    color: var(--text-main);
+    padding: 0.375rem 0.75rem;
+    margin-left: 0.5rem;
+}
+.dataTables_wrapper .dataTables_length select {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    color: var(--text-main);
+    padding: 0.25rem 0.5rem;
+}
+table.dataTable {
+    border-collapse: collapse !important;
+    border: 1px solid var(--border-color) !important;
+}
+table.dataTable tbody tr {
+    background-color: var(--bg-card) !important;
+}
+table.dataTable tbody tr:hover {
+    background-color: var(--bg-card-hover) !important;
+    cursor: pointer;
+}
+table.dataTable td, table.dataTable th {
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* Filters Inputs */
+.table-filter-input {
+    background-color: #ffffff !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+.table-filter-input:focus {
+    border-color: var(--primary) !important;
+}
+
+/* Tag colors */
+.tag-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.tag-positive { background-color: rgba(16, 185, 129, 0.15); color: #047857; }
+.tag-sent-positive { background-color: rgba(16, 185, 129, 0.15); color: #047857; }
+.tag-sent-medium { background-color: rgba(245, 158, 11, 0.15); color: #b45309; }
+.tag-sent-not-good { background-color: rgba(239, 68, 68, 0.15); color: #b91c1c; }
+
+.tag-high { background-color: rgba(239, 68, 68, 0.15); color: #b91c1c; border: 1px solid rgba(239, 68, 68, 0.3); }
+.tag-medium { background-color: rgba(245, 158, 11, 0.15); color: #b45309; border: 1px solid rgba(245, 158, 11, 0.3); }
+.tag-low { background-color: rgba(6, 182, 212, 0.15); color: #0369a1; border: 1px solid rgba(6, 182, 212, 0.3); }
+
+/* ==========================================================================
+   VOICE UPLOAD & DROPZONE STYLING
+   ========================================================================== */
+.mic-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--primary-grad);
+    color: white !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+}
+
+.upload-dropzone {
+    border: 2px dashed var(--border-color);
+    border-radius: var(--border-radius-lg);
+    background-color: var(--bg-main);
+    cursor: pointer;
+    transition: border-color var(--transition-speed);
+}
+.upload-dropzone:hover, .upload-dropzone.dragover {
+    border-color: var(--primary);
+}
+
+/* ==========================================================================
+   AI CHAT ASSISTANT INTERFACE
+   ========================================================================== */
+.assistant-container {
+    height: calc(100vh - 180px);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+}
+
+.assistant-sidebar {
+    width: 250px;
+    border-right: 1px solid var(--border-color);
+    height: 100%;
+    overflow-y: auto;
+}
+
+.chat-wrapper {
+    height: 100%;
+}
+
+.chat-messages-area {
+    overflow-y: auto;
+    background-color: var(--bg-main);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Chat bubble aesthetics */
+.user-bubble {
+    align-self: flex-end;
+    background-color: var(--primary);
+    color: white !important;
+    padding: 0.75rem 1rem;
+    border-radius: 18px 18px 0 18px;
+    max-width: 75%;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.15);
+}
+
+.assistant-bubble {
+    align-self: flex-start;
+    display: flex;
+    max-width: 85%;
+}
+.assistant-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+    color: white !important;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+}
+.bubble-content {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    border-radius: 0 18px 18px 18px;
+    color: var(--text-main);
+}
+
+.bubble-content table {
+    width: 100%;
+    margin-top: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-collapse: collapse;
+}
+.bubble-content th, .bubble-content td {
+    border: 1px solid var(--border-color);
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+}
+.bubble-content th {
+    background-color: var(--bg-main);
+    color: var(--text-muted);
+}
+
+/* Chat suggestions styling */
+.suggestion-item {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    transition: all var(--transition-speed);
+}
+.suggestion-item:hover {
+    border-color: var(--primary);
+    background-color: var(--bg-card-hover);
+}
+
+/* Typing loading animation dots */
+.typing-dots span {
+    width: 8px;
+    height: 8px;
+    background-color: var(--text-muted);
+    border-radius: 50%;
+    display: inline-block;
+    animation: typing 1.4s infinite both;
+}
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+/* ==========================================================================
+   LOADING OVERLAY & MODALS
+   ========================================================================== */
+#processing-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(241, 245, 249, 0.9);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: var(--border-radius-lg) !important;
+    color: var(--text-main) !important;
+}
+.modal-header, .modal-footer {
+    border-bottom: 1px solid var(--border-color) !important;
+    border-top: 1px solid var(--border-color) !important;
+    background-color: var(--bg-card) !important;
+    color: var(--text-main) !important;
+}
+.modal-body {
+    background-color: var(--bg-main) !important;
+    color: var(--text-main) !important;
+}
+
+.bg-dark-tint-1 { background-color: var(--bg-main) !important; }
+.bg-dark-tint-2 { background-color: var(--bg-card) !important; }
+
+/* Dialog bubble layout for full conversation modal */
+.dialog-bubble {
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius-md);
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--border-color);
+}
+.speaker-rep { background-color: rgba(37, 99, 235, 0.06); border-left: 4px solid var(--primary); }
+.speaker-client { background-color: rgba(234, 88, 12, 0.06); border-left: 4px solid var(--color-warning); }
+.speaker-ai { background-color: rgba(139, 92, 246, 0.06); border-left: 4px solid var(--color-purple); }
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .sidebar { width: 80px; padding: 1rem 0.5rem; text-align: center; }
+    .sidebar-header h5, .sidebar-header span, .sidebar .menu-item text, .sidebar-footer { display: none; }
+    .sidebar .menu-item { justify-content: center; padding: 0.75rem 0; }
+    .content-wrapper { margin-left: 80px; width: calc(100% - 80px); padding: 1rem; }
+    .user-profile { justify-content: center; }
+}
+
+/* ==========================================================================
+   GLOBAL WHITE THEME HTML OVERRIDES
+   ========================================================================== */
+.text-white, 
+h2.text-white, 
+h3.text-white, 
+h4.text-white, 
+h5.text-white, 
+h6.text-white {
+    color: var(--text-main) !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.btn-close-white {
+    filter: invert(1) !important; /* Inverts Bootstrap modal close button color from white to dark */
+}
+
+/* Keep button contents, user speech bubble contents white */
+.btn-primary, 
+.btn-primary *, 
+.btn-login, 
+.btn-login *, 
+.user-bubble, 
+.user-bubble *,
+.btn-danger,
+.btn-danger * {
+    color: #ffffff !important;
+}
+
+.stat-card .stat-value {
+    color: var(--text-main) !important;
+}
+
+.btn-dark-card {
+    background-color: var(--bg-card) !important;
+    border: 1px solid var(--border-color) !important;
+}
+.btn-dark-card:hover {
+    background-color: var(--bg-card-hover) !important;
+}
+
+/* Custom Accordion Styling to support Light and Dark Themes */
+.custom-accordion .accordion-item {
+    background-color: var(--bg-card, #ffffff) !important;
+    border: 1px solid var(--border-color, #dee2e6) !important;
+    color: var(--text-main, #212529) !important;
+}
+
+.custom-accordion .accordion-button {
+    background-color: var(--bg-card, #ffffff) !important;
+    color: var(--text-main, #212529) !important;
+}
+
+.custom-accordion .accordion-button:not(.collapsed) {
+    background-color: var(--bg-card-hover, #f8f9fa) !important;
+    color: var(--text-main, #0d6efd) !important;
+}
+
+.custom-accordion .accordion-body {
+    color: var(--text-main, #212529) !important;
+}
+
+body.dark-theme .custom-accordion .accordion-item {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+    color: #f3f4f6 !important;
+}
+
+body.dark-theme .custom-accordion .accordion-button {
+    background-color: #1f2937 !important;
+    color: #f3f4f6 !important;
+}
+
+body.dark-theme .custom-accordion .accordion-button:not(.collapsed) {
+    background-color: #374151 !important;
+    color: #ffffff !important;
+}
+
+body.dark-theme .custom-accordion .accordion-body {
+    color: #d1d5db !important;
+}
+
+/* Fix detail modal text visibility in both themes */
+#posterDetailModal {
+    color: var(--text-main, #212529) !important;
+}
+
+#posterDetailModal .modal-content {
+    background-color: var(--bg-card, #ffffff) !important;
+    border-color: var(--border-color, #dee2e6) !important;
+}
+
+#posterDetailModal .modal-header,
+#posterDetailModal .modal-footer {
+    background-color: var(--bg-card-hover, #f8f9fa) !important;
+    border-color: var(--border-color, #dee2e6) !important;
+}
+
+body.dark-theme #posterDetailModal {
+    color: #f3f4f6 !important;
+}
+
+body.dark-theme #posterDetailModal .modal-content {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+}
+
+body.dark-theme #posterDetailModal .modal-header,
+body.dark-theme #posterDetailModal .modal-footer {
+    background-color: #374151 !important;
+    border-color: #4b5563 !important;
+}
+
+/* Force all text inside modal tab content to adapt to light/dark themes */
+#detailTabContent {
+    color: var(--text-main, #212529) !important;
+}
+
+#detailTabContent .tab-pane {
+    color: var(--text-main, #212529) !important;
+}
+
+/* Ensure code blocks (OCR, JSON) are readable and adjust background/color */
+#detail-tab-ocr,
+#detail-tab-json {
+    background-color: var(--bg-card-hover, #f8f9fa) !important;
+    color: var(--text-main, #212529) !important;
+    border: 1px solid var(--border-color, #dee2e6) !important;
+}
+
+body.dark-theme #detailTabContent {
+    color: #f3f4f6 !important;
+}
+
+body.dark-theme #detailTabContent .tab-pane {
+    color: #f3f4f6 !important;
+}
+
+body.dark-theme #detail-tab-ocr,
+body.dark-theme #detail-tab-json {
+    background-color: #111827 !important;
+    color: #34d399 !important; /* Beautiful green color for code text in dark mode */
+    border-color: #374151 !important;
+}
+
+
+
